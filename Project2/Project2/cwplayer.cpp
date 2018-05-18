@@ -1,20 +1,13 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <map>
-#include <algorithm>
-#include <Windows.h>
 #include"Dictionary.h"
 #include"Board.h"
-#include"Player.h"
+#include"player.h"
 
 using namespace std;
 
 void solvePuzzle()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	
+	string inputFile;
 	//dictionary creation and extraction
 	Dictionary dict;
 	Dictionary *dictA = &dict;
@@ -90,6 +83,21 @@ void solvePuzzle()
 	board.loadFromFile(fA);
 	f.close();
 
+	player Player;
+	player *PlayerA = &Player;
+	string playerName;
+
+	cout << "Enter your player name: ";
+	cin >> playerName;
+
+	Player.setName(playerName);
+
+	void showClues();
+
+}
+
+void showClues() 
+{
 
 }
 

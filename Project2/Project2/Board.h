@@ -24,8 +24,6 @@ public:
 	Board();
 
 	Board(unsigned int lines, unsigned int columns);
-
-	//bool ResumeBoard();  //bool???
 	
 	void addVertical(string word, int line, int column);
 
@@ -73,5 +71,9 @@ public:
 
 	void reExtraction(string outputFile);
 
-	void showmap();
+	void grid();
+
+	void addVerticalGrid(string word, int line, int column);
+
+	void addHorizontalGrid(string word, int line, int column);
 };

@@ -1,16 +1,16 @@
-#include "Player.h"
+#include "player.h"
 
 
 
-Player::Player()
+player::player()
 {
 }
 
-Player::~Player()
+player::~player()
 {
 }
 
-void Player::gameTime()
+void player::setName(string playerName)
 {
-
+	playerName = name;
 }

@@ -1,15 +1,23 @@
 #pragma once
-#include<time.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <algorithm>
+#include <Windows.h>
+#include <time.h>
 
+using namespace std; 
 
-
-
-class Player
+class player
 {
-public:
-	Player();
-	~Player();
+private:
 
-	void gameTime();
+	 string name;
+	double timeSpent;
+public:
+	player();
+	~player();
+	
+	void setName(string playerName);
 };
 

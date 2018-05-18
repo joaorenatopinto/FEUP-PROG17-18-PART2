@@ -63,7 +63,6 @@ bool Board::crossedWordsHorizontal(unsigned int column, unsigned int line)
 
 void Board::removeVertical(int line, int column)
 {
-<<<<<<< Updated upstream
 	if (0 < line) 
 	{
 		if (!crossedWordsVertical(column, line - 1))
@@ -72,14 +71,6 @@ void Board::removeVertical(int line, int column)
 			else return;
 		}
 		
-=======
-	if (0 < line) {
-		if (!crossedWordsVertical(column, line - 1))
-		{
-			if (layout[column].at(line - 1) == '#') layout[column].at(line - 1) = '.';
-			else return;
-		}
->>>>>>> Stashed changes
 	}
 
 	int i = 0;
@@ -88,15 +79,10 @@ void Board::removeVertical(int line, int column)
 		if (line + i == lines) return;
 		if (layout[column][line + i] == '#')
 		{
-<<<<<<< Updated upstream
 			if (!crossedWordsVertical(column, line - 1) || (!crossedWordsHorizontal(column, line -1)))
 			{
 				layout[column][line + i] = '.';
 				
-=======
-			if (!crossedWordsVertical(column, line + i)) {
-				layout[column][line + i] = '.';
->>>>>>> Stashed changes
 			}
 			return;
 		}
@@ -554,14 +540,68 @@ void Board::reExtraction(string outputFile)
 	f.close();
 }
 
-void Board::showmap()
+void Board::grid()
 {
-	map<string, string>::iterator it = positionWordsPlaced.begin();
-	cout << endl;
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	int REDblack = 12; //red on black
+	int BLACKsoftGray = 112; //black on soft gray
+	int SOFTGRAYblack = 7; //soft gray on black
+	int WHITEblack = 15;
+	int WHITEwhite = 119;
+	int BLACKblack = 0;
 
-	for (it; it != positionWordsPlaced.end(); it++)
-	{
-		cout << it->first << " " << it->second << endl;
+
+	SetConsoleTextAttribute(hConsole, REDblack);
+	char a = 'a';
+	char A = 'A';
+	cout << "\n   ";
+	for (unsigned int i = 0; i < columns; i++) {
+
+		char b = a + i;
+		cout << " " << b;
 	}
 	cout << endl;
+	for (unsigned int j = 0; j < lines; j++) {
+		SetConsoleTextAttribute(hConsole, REDblack);
+		char B = A + j;
+		cout << " " << B << " ";
+		for (unsigned int i = 0; i < columns; i++) {
+			if (layout[i][j] == '#' || layout[i][j] == '.')
+			{
+				cout << " ";
+				SetConsoleTextAttribute(hConsole, BLACKblack);
+				cout << layout[i][j];
+			}
+			else if (layout[i][j] == '$')
+			{
+				SetConsoleTextAttribute(hConsole, WHITEwhite);
+				cout << " " << layout[i][j];
+			}
+			else
+			{
+				SetConsoleTextAttribute(hConsole, SOFTGRAYblack);
+				cout << " " << layout[i][j];
+			}
+
+		}
+		cout << endl;
+	}
+	SetConsoleTextAttribute(hConsole, WHITEblack);
+}
+
+void Board::addVerticalGrid(string word, int line, int column)
+{
+	if (0 < line) layout[column].at(line - 1) = '#';
+
+	for (unsigned int i = 0; i < word.size(); i++)
+		layout[column][line + i] = '$';
+	if (line + word.size() < lines) layout[column].at(line + word.size()) = '#';
+}
+
+void Board::addHorizontalGrid(string word, int line, int column)
+{
+	if (0 < column) layout.at(column - 1)[line] = '#';
+	for (unsigned int i = 0; i < word.size(); i++)
+		layout[column + i][line] = '$';
+	if (column + word.size() < columns) layout.at(column + word.size())[line] = '#';
 }
