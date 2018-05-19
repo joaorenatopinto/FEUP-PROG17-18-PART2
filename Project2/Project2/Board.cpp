@@ -81,16 +81,17 @@ void Board::removeVertical(int line, int column)
 	while (true)
 	{
 		if (line + i == lines) return;
-		if (layout[column][line + i] == '#')
+		if (layout[column][line + i] == '#' && layout[column][line + i + 1] == '.')
 		{
 			layout[column][line + i] = '.';
 			return;
 		}
+		if (layout[column][line + i] == '#') return;
 		if (crossedWordsVertical(column, line + i))
 		{
 			i++; continue;
 		}
-		else layout[column][line + i] = '.';
+		else layout[column][line + i] = '$';
 		i++;
 	}
 }
@@ -110,16 +111,18 @@ void Board::removeHorizontal(int line, int column)
 	while (true)
 	{
 		if (column + i == columns) return;
-		if (layout[column + i][line] == '#')
+		if (layout[column + i][line] == '#' && layout[column + i + 1][line] == '.')
 		{
 			layout[column + i][line] = '.';
 			return;
 		}
+		if (layout[column + i][line] == '#') return;
+
 		if (crossedWordsHorizontal(column + i, line))
 		{
 			i++; continue;
 		}
-		else layout[column + i][line] = '.';
+		else layout[column + i][line] = '$';
 		i++;
 	}
 }

@@ -21,6 +21,7 @@ void player::StartTime() {
 
 double player::FinishTime() {
 	double seconds_since_start = difftime(time(0), start);
+	return seconds_since_start;
 }
 
 void player::OneMoreClue() {
