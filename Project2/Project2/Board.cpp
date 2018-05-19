@@ -802,7 +802,7 @@ void Board::clues()
 	cout << "VERTICAL WORDS\n";
 	for (it; it != positionWordsPlaced.end(); it++) {
 		if (it->first[2] == 'V') {
-			cout << it->first[0] + it->first[1] << "" << "  ";
+			cout << it->first[0] + it->first[1] << "" << synonym();
 		}
 	}
 	cout << "HORIZONTAL WORDS\n\n";
@@ -811,4 +811,16 @@ void Board::clues()
 	for (it; it != positionWordsPlaced.end(); it++) {
 
 	}
+}
+
+string Board::synonym() {
+	string synonym;
+	bool flag;
+
+	do {
+		synonym = dict.Synonym();
+		for (int i = 0; i < SynonimsUsed.size(); i++) {
+
+		}
+	} while (!flag);
 }

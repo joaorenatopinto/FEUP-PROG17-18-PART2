@@ -33,5 +33,7 @@ public:
 	bool headlineExists(string word);
 
 	vector<string> matchingWords(string wildCard);
+
+	string Synonym();
 };
 

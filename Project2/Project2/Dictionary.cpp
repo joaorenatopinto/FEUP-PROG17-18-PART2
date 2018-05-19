@@ -200,3 +200,7 @@ vector<string> Dictionary::matchingWords(string wildCard)
 	}
 	return resultWord;
 }
+
+string Dictionary::Synonym() {
+
+}
