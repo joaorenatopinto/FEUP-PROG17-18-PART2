@@ -6,6 +6,8 @@
 #include <map>
 #include <algorithm>
 #include <Windows.h>
+#include <vector>
+
 using namespace std;
 
 
@@ -76,4 +78,14 @@ public:
 	void addVerticalGrid(string word, int line, int column);
 
 	void addHorizontalGrid(string word, int line, int column);
+
+	void loadFromFileGrid(fstream *f);
+
+	void addWordGrid(string word, string position);
+
+	bool unusedWordGrid(string word, vector<string> wordsplaced);
+
+	bool checkSpace4WordGrid(string word, string position);
+
+	void clues();
 };
