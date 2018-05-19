@@ -34,6 +34,6 @@ public:
 
 	vector<string> matchingWords(string wildCard);
 
-	string Synonym();
+	//string Synonym();
 };
 

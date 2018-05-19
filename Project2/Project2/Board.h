@@ -19,9 +19,10 @@ private:
 	vector <vector <char> > layout; //bigger vector "lines", smaller vectors are columns
 	vector <char> newEmpty; //needed to fill the vector
 	map <string, string> positionWordsPlaced; //to handle add and remove words, check on repeated words and output/input for/from files
-	vector <string> SynonimsUsed;
+	
 	
 public:
+
 	~Board();
 
 	Board();

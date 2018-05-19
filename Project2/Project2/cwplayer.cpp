@@ -341,6 +341,10 @@ bool checkValidity(Dictionary *dictP, Board *boardP, string word, string positio
 	return true;
 }
 
+//void clues(Dictionary *dictP, Board *boardP, map <string, string> keySynonym) {
+//
+//}
+
 void solvePuzzle()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -350,6 +354,10 @@ void solvePuzzle()
 	Dictionary *dictA = &dict;
 	bool errorOpeningFile;
 	vector<string> wordsplaced;
+	map <string, string> keySynonym;
+	map <string, string> WordsPlacedByPlayer;
+
+
 	do
 	{
 		errorOpeningFile = false;
@@ -422,10 +430,16 @@ void solvePuzzle()
 
 	//loop to fill in the board
 	string position, word;
+	//clues(dictA, boardA, keySynonym); AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH FUNÇÃO QUE PREENCHE A BOARD
+
+	player Player;
 	while (true)
 	{
 		board.grid(); //show the board
 					  //the user choose what to do
+
+		// AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AHAH FAZER COUT DO MAP
+
 		cout << "Position ( LCD / CTRL-Z = stop ) ? "; cin >> position; //<======================= tornar mais robusto
 		if (cin.eof())
 		{
@@ -453,27 +467,33 @@ void solvePuzzle()
 		else if ("-" == word)
 		{
 			board.removeWord(position);
+			map<string, string>::iterator it = WordsPlacedByPlayer.find(position);
+			if (it != WordsPlacedByPlayer.end())
+			{
+				WordsPlacedByPlayer.erase(it);
+			}
 		}
 		//to help the user
 		else if ("?" == word)
 		{
-			helpInsertWord(position, boardA, dictA);
+			helpInsertWord(position, boardA, dictA);// AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH MUDAR PRA SER A FUNÇÃO QUE DA NO VO SINÓNIMO
+			Player.OneMoreClue();
 		}
 		//to add the respective word
 		else if (checkValidity(dictA, boardA, word, position, wordsplaced)) 
 		{
-			wordsplaced.push_back(word);
 			board.addWord(word, position);
+			WordsPlacedByPlayer[position] = word;
 		}
 
 	}
 
-	player Player;
 	player *PlayerA = &Player;
 	string playerName;
 
 	cout << "Enter your player name: ";
 	cin >> playerName;
+	Player.StartTime();
 
 	Player.setName(playerName);
 }

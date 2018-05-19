@@ -792,7 +792,7 @@ bool Board::checkSpace4WordGrid(string word, string position)
 	}
 	return true;
 }
-
+/*
 void Board::clues() 
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -802,7 +802,7 @@ void Board::clues()
 	cout << "VERTICAL WORDS\n";
 	for (it; it != positionWordsPlaced.end(); it++) {
 		if (it->first[2] == 'V') {
-			cout << it->first[0] + it->first[1] << "" << synonym();
+			cout << it->first[0] + it->first[1] << "" << synonym(it->second);
 		}
 	}
 	cout << "HORIZONTAL WORDS\n\n";
@@ -811,8 +811,10 @@ void Board::clues()
 	for (it; it != positionWordsPlaced.end(); it++) {
 
 	}
-}
+}*/
 
+
+/*
 string Board::synonym() {
 	string synonym;
 	bool flag;
@@ -823,4 +825,4 @@ string Board::synonym() {
 
 		}
 	} while (!flag);
-}
+}*/
