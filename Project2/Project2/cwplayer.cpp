@@ -33,6 +33,7 @@ bool allWordsValidity(Board *boardP, Dictionary *dictP)
 	}
 	return true;
 }
+
 bool finishingCreate(Board *boardP, Dictionary *dictP)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -119,6 +120,7 @@ bool finishingCreate(Board *boardP, Dictionary *dictP)
 	}
 	return true;
 }
+
 bool finishingCreate(Board *boardP, Dictionary *dictP, string inputFile)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -201,6 +203,7 @@ bool finishingCreate(Board *boardP, Dictionary *dictP, string inputFile)
 		boardP->reExtraction(inputFile);
 	}
 }
+
 void helpInsertWord(string position, Board *boardP, Dictionary *dictP)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -327,6 +330,7 @@ void helpInsertWord(string position, Board *boardP, Dictionary *dictP)
 		}
 	}
 }
+
 bool checkValidity(Dictionary *dictP, Board *boardP, string word, string position, vector<string> wordsplaced)
 {
 	//check the existance of the word

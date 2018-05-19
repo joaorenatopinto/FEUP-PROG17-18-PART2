@@ -112,7 +112,8 @@ bool Dictionary::loadToProgram()
 	string headline;
 
 	f.open(fileNameInput);
-	if (!f.is_open()) {
+	if (!f.is_open())
+	{
 		SetConsoleTextAttribute(hConsole, 244);
 		cerr << "File " << fileNameInput << " could not be found!\nTry again!\n";
 		SetConsoleTextAttribute(hConsole, 15);
@@ -128,12 +129,12 @@ bool Dictionary::loadToProgram()
 	} while (!validLine(completeLine));
 
 	//line and headline analysis
-	while (!f.eof()) 
+	while (!f.eof())
 	{
 		vector <string> synonyms;
-		while (completeLine != "\0") 
+		while (completeLine != "\0")
 		{
-			if (isHeadline(completeLine)) 
+			if (isHeadline(completeLine))
 			{
 				//i++;
 				//wordSynonyms.push_back(newEmptyVector);
@@ -141,7 +142,7 @@ bool Dictionary::loadToProgram()
 				headline = singleWord(completeLine);
 				transform(headline.begin(), headline.end(), headline.begin(), ::toupper); //->uppercase
 			}
-			else 
+			else
 			{
 				//wordSynonyms[i].push_back(singleWord(completeLine)); 
 				word = singleWord(completeLine);
@@ -156,7 +157,7 @@ bool Dictionary::loadToProgram()
 		wordSynonyms[headline] = synonyms;
 
 		//next line
-		do 
+		do
 		{
 			getline(f, completeLine);
 		} while (!validLine(completeLine));
@@ -174,7 +175,7 @@ bool Dictionary::headlineExists(string word)
 	map<string, vector<string>>::iterator it = wordSynonyms.begin();
 
 	it = wordSynonyms.find(word);
-	if (it != wordSynonyms.end()) 
+	if (it != wordSynonyms.end())
 	{
 		return true;
 	}
@@ -188,10 +189,10 @@ vector<string> Dictionary::matchingWords(string wildCard)
 	map<string, vector<string>>::iterator it = wordSynonyms.begin();
 	int maxNumber = 10;
 
-	for (it = wordSynonyms.begin(); it != wordSynonyms.end(); it++) 
+	for (it = wordSynonyms.begin(); it != wordSynonyms.end(); it++)
 	{
 		if (maxNumber == 0) break;
-		if (wildcardMatch(it->first.c_str(), wildCard.c_str())) 
+		if (wildcardMatch(it->first.c_str(), wildCard.c_str()))
 		{
 			resultWord.push_back(it->first);
 			maxNumber--;

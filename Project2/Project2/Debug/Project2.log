@@ -1,3 +1,6 @@
 ﻿  Board.cpp
-c:\users\beto\documents\proj2part2\project2\project2\board.cpp(652): warning C4018: '<': signed/unsigned mismatch
-  Project2.vcxproj -> C:\Users\Beto\Documents\Proj2Part2\Project2\Debug\Project2.exe
+d:\feup\prog\proj2part2\project2\project2\board.cpp(709): warning C4018: '<': incompatibilidade de signed/unsigned
+  cwplayer.cpp
+  Gerando Código...
+d:\feup\prog\proj2part2\project2\project2\cwplayer.cpp(205): warning C4715: 'finishingCreate': nem todos os caminhos de controle retornam um valor
+  Project2.vcxproj -> D:\FEUP\PROG\Proj2Part2\Project2\Debug\Project2.exe

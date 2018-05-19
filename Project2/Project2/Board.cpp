@@ -1,4 +1,4 @@
- #include "Board.h"
+#include "Board.h"
 
 
 Board::Board()
@@ -37,11 +37,13 @@ void Board::addHorizontal(string word, int line, int column)
 
 bool Board::crossedWordsVertical(unsigned int column, unsigned int line)
 {
-	if (column > 0) {
+	if (column > 0)
+	{
 		if (layout[column - 1][line] >= 65 && layout[column - 1][line] <= 90)
 			return true;
 	}
-	if (column < columns) {
+	if (column < columns)
+	{
 		if (layout[column + 1][line] >= 65 && layout[column + 1][line] <= 90)
 			return true;
 	}
@@ -50,11 +52,13 @@ bool Board::crossedWordsVertical(unsigned int column, unsigned int line)
 
 bool Board::crossedWordsHorizontal(unsigned int column, unsigned int line)
 {
-	if (line > 0) {
+	if (line > 0)
+	{
 		if (layout[column][line - 1] >= 65 && layout[column][line - 1] <= 90)
 			return true;
 	}
-	if (line < lines) {
+	if (line < lines)
+	{
 		if (layout[column][line + 1] >= 65 && layout[column][line + 1] <= 90)
 			return true;
 	}
@@ -63,14 +67,14 @@ bool Board::crossedWordsHorizontal(unsigned int column, unsigned int line)
 
 void Board::removeVertical(int line, int column)
 {
-	if (0 < line) 
+	if (0 < line)
 	{
 		if (!crossedWordsVertical(column, line - 1))
 		{
-		    if (layout[column].at(line - 1) == '#') layout[column].at(line - 1) = '.';
-			else return;
+			if (layout[column].at(line - 1) == '#') layout[column].at(line - 1) = '.';
+
 		}
-		
+
 	}
 
 	int i = 0;
@@ -79,14 +83,10 @@ void Board::removeVertical(int line, int column)
 		if (line + i == lines) return;
 		if (layout[column][line + i] == '#')
 		{
-			if (!crossedWordsVertical(column, line - 1) || (!crossedWordsHorizontal(column, line -1)))
-			{
-				layout[column][line + i] = '.';
-				
-			}
+			layout[column][line + i] = '.';
 			return;
 		}
-		if (crossedWordsVertical(column, line + i) || (!crossedWordsHorizontal(column, line +i)))
+		if (crossedWordsVertical(column, line + i))
 		{
 			i++; continue;
 		}
@@ -99,10 +99,12 @@ void Board::removeHorizontal(int line, int column)
 {
 	if (0 < column)
 	{
-		if (!crossedWordsHorizontal(column - 1, line) || (!crossedWordsVertical(column - 1, line)))
-		if (layout.at(column - 1)[line] == '#') layout.at(column - 1)[line] = '.';
-		else return;
+		if (!crossedWordsHorizontal(column - 1, line))
+		{
+			if (layout.at(column - 1)[line] == '#') layout.at(column - 1)[line] = '.';
+		}
 	}
+
 
 	int i = 0;
 	while (true)
@@ -113,7 +115,7 @@ void Board::removeHorizontal(int line, int column)
 			layout[column + i][line] = '.';
 			return;
 		}
-		if (!crossedWordsHorizontal(column + i, line) || (!crossedWordsVertical(column + i, line)))
+		if (crossedWordsHorizontal(column + i, line))
 		{
 			i++; continue;
 		}
@@ -128,8 +130,10 @@ void Board::printInFile(fstream *f, string fileName)
 	*f << fileName << endl << endl;
 
 	//the board
-	for (unsigned int j = 0; j < lines; j++) {
-		for (unsigned int i = 0; i < columns; i++) {
+	for (unsigned int j = 0; j < lines; j++)
+	{
+		for (unsigned int i = 0; i < columns; i++)
+		{
 			*f << layout[i][j] << " ";
 		}
 		*f << endl;
@@ -138,11 +142,12 @@ void Board::printInFile(fstream *f, string fileName)
 	*f << endl;
 	map<string, string>::iterator it;
 
-	for (it = positionWordsPlaced.begin(); it != positionWordsPlaced.end(); it++) {
+	for (it = positionWordsPlaced.begin(); it != positionWordsPlaced.end(); it++)
+	{
 		*f << (*it).first << " " << (*it).second;
 		*f << endl;
 	}
-}				
+}
 
 void Board::pointFill()
 {
@@ -150,9 +155,11 @@ void Board::pointFill()
 	char point = '.';
 	//	layout:	outer vector columns
 	//			inner vector lines
-	for (unsigned int i = 0; i < columns; i++) {
+	for (unsigned int i = 0; i < columns; i++)
+	{
 		layout.push_back(newEmpty);
-		for (unsigned int j = 0; j < lines; j++) {
+		for (unsigned int j = 0; j < lines; j++)
+		{
 			layout[i].push_back(point);
 		}
 	}
@@ -164,23 +171,26 @@ void Board::show()
 	int REDblack = 12; //red on black
 	int BLACKsoftGray = 112; //black on soft gray
 	int SOFTGRAYblack = 7; //soft gray on black
-	int WHITEblack = 15;
+	int WHITEblack = 15; //white on black
 
 	SetConsoleTextAttribute(hConsole, REDblack);
 	char a = 'a';
 	char A = 'A';
 	cout << "\n   ";
-	for (unsigned int i = 0; i < columns; i++) {
+	for (unsigned int i = 0; i < columns; i++)
+	{
 
 		char b = a + i;
 		cout << " " << b;
 	}
 	cout << endl;
-	for (unsigned int j = 0; j < lines; j++) {
+	for (unsigned int j = 0; j < lines; j++)
+	{
 		SetConsoleTextAttribute(hConsole, REDblack);
 		char B = A + j;
 		cout << " " << B << " ";
-		for (unsigned int i = 0; i < columns; i++) {
+		for (unsigned int i = 0; i < columns; i++)
+		{
 			if (layout[i][j] == '#')
 			{
 				cout << " ";
@@ -240,12 +250,14 @@ void Board::removeWord(string position)
 	// retirar a palavra do board
 	string errorMessage = "\n\nThere aren't any words to remove in that position!\n";
 	map<string, string>::iterator it = positionWordsPlaced.find(position);
-	if (it != positionWordsPlaced.end()) {
+	if (it != positionWordsPlaced.end())
+	{
 		positionWordsPlaced.erase(it);
 		if ('V' == direction || 'v' == direction) removeVertical(line, column);
 		else if ('H' == direction || 'h' == direction) removeHorizontal(line, column);
 	}
-	else {
+	else
+	{
 		SetConsoleTextAttribute(hConsole, 244);
 		cout << errorMessage;
 		SetConsoleTextAttribute(hConsole, 15);
@@ -266,33 +278,45 @@ bool Board::checkSpace4Word(string word, string position)
 	string errorMessage = "\nThe word you are trying to insert, doesn't fit in the board!\n\n";
 
 	//check if the beginning is out of boundaries or not
-	if (lineNum + 1 > lines || columnNum + 1 > columns) { cout << errorMessage; return false; }
+	if (lineNum + 1 > lines || columnNum + 1 > columns)
+	{
+		cout << errorMessage; return false;
+	}
 	//checks if there are space for the word, depending on the initial position, and the word size
 	//checks several conditions
-	if ('V' == direction || 'v' == direction) {
-		if (0 == lineNum) {  //beginning of the column
+	if ('V' == direction || 'v' == direction)
+	{
+		if (0 == lineNum)
+		{  //beginning of the column
 			for (unsigned int i = 0; i < wSize; i++) //checks every position
-				if (!(layout[columnNum][i] == '.' || layout[columnNum][i] == word[i] || word[i] == '?')) {
+				if (!(layout[columnNum][i] == '.' || layout[columnNum][i] == word[i] || word[i] == '?'))
+				{
 					cout << errorMessage;  return false;
 				}
 			if (wSize < lines)
-				if (!(layout[columnNum].at(wSize) == '#' || layout[columnNum].at(wSize) == '.')) { // checks the final position +1
+				if (!(layout[columnNum].at(wSize) == '#' || layout[columnNum].at(wSize) == '.')) // checks the final position +1
+				{
 					cout << errorMessage; return false;
 				}
 		}
-		else {
-			if (lineNum + wSize > lines) {
+		else
+		{
+			if (lineNum + wSize > lines)
+			{
 				cout << errorMessage; return false;
 			}
 			for (unsigned int i = 0; i < wSize; i++) //all position checking
-				if (!(layout[columnNum][i + lineNum] == '.' || layout[columnNum][i + lineNum] == word[i] || word[i] == '?')) {
+				if (!(layout[columnNum][i + lineNum] == '.' || layout[columnNum][i + lineNum] == word[i] || word[i] == '?'))
+				{
 					cout << errorMessage; return false;
 				}
 			if (lineNum + wSize < lines)
-				if (!(layout[columnNum].at(wSize + lineNum) == '#' || layout[columnNum].at(wSize + lineNum) == '.')) { //empty space in the end
+				if (!(layout[columnNum].at(wSize + lineNum) == '#' || layout[columnNum].at(wSize + lineNum) == '.')) //empty space in the end
+				{
 					cout << errorMessage; return false;
 				}
-			if (!(layout[columnNum].at(lineNum - 1) == '#' || layout[columnNum].at(lineNum - 1) == '.')) { //empty space in the beginning
+			if (!(layout[columnNum].at(lineNum - 1) == '#' || layout[columnNum].at(lineNum - 1) == '.'))  //empty space in the beginning
+			{
 				cout << errorMessage; return false;
 			}
 		}
@@ -302,27 +326,34 @@ bool Board::checkSpace4Word(string word, string position)
 		if (0 == columnNum)
 		{
 			for (unsigned int i = 0; i < wSize; i++)
-				if (!(layout[i][lineNum] == '.' || layout[i][lineNum] == word[i] || word[i] == '?')) { //all positions
+				if (!(layout[i][lineNum] == '.' || layout[i][lineNum] == word[i] || word[i] == '?')) //all positions
+				{
 					cout << errorMessage; return false;
 				}
 			if (columnNum + wSize < columns)
-				if (!(layout.at(wSize)[lineNum] == '#' || layout.at(wSize)[lineNum] == '.')) { // checks the final position +1
+				if (!(layout.at(wSize)[lineNum] == '#' || layout.at(wSize)[lineNum] == '.')) // checks the final position +1
+				{
 					cout << errorMessage; return false;
 				}
 		}
-		else {
-			if (columnNum + wSize > columns) {
+		else
+		{
+			if (columnNum + wSize > columns)
+			{
 				cout << errorMessage; return false;
 			}
 			for (unsigned int i = 0; i < wSize; i++) //all position checking
-				if (!(layout[i + columnNum][lineNum] == '.' || layout[i + columnNum][lineNum] == word[i] || word[i] == '?')) {
+				if (!(layout[i + columnNum][lineNum] == '.' || layout[i + columnNum][lineNum] == word[i] || word[i] == '?'))
+				{
 					cout << errorMessage; return false;
 				}
 			if (columnNum + wSize < columns)
-				if (!(layout.at(wSize + columnNum)[lineNum] == '#' || layout.at(wSize + columnNum)[lineNum] == '.')) {  //empty space in the end
+				if (!(layout.at(wSize + columnNum)[lineNum] == '#' || layout.at(wSize + columnNum)[lineNum] == '.')) //empty space in the end
+				{
 					cout << errorMessage; return false;
 				}
-			if (!(layout.at(columnNum - 1)[lineNum] == '#' || layout.at(columnNum - 1)[lineNum] == '.')) { //empty space in the beginning
+			if (!(layout.at(columnNum - 1)[lineNum] == '#' || layout.at(columnNum - 1)[lineNum] == '.'))  //empty space in the beginning
+			{
 				cout << errorMessage; return false;
 			}
 		}
@@ -337,8 +368,10 @@ bool Board::unusedWord(string word)
 	string errorMessage = "\nThe word was already used!\n\n";
 	map<string, string>::iterator it = positionWordsPlaced.begin();
 
-	for (it; it != positionWordsPlaced.end(); it++) {
-		if (it->second == word) {
+	for (it; it != positionWordsPlaced.end(); it++)
+	{
+		if (it->second == word)
+		{
 			cout << errorMessage;
 			return false;
 		}
@@ -359,23 +392,28 @@ bool Board::validPosition(string position)
 	string errorMessageOutofBounds = "\nIt looks like the position %s doesn't exist in this board!\n";
 	string errorMessageDirection = "\nThat direction doesn't exist. Choose between vertical 'V' or horizontal 'H'!\n";
 
-	if (!(direction == 'v' || direction == 'V' || direction == 'h' || direction == 'H')) {
+	if (!(direction == 'v' || direction == 'V' || direction == 'h' || direction == 'H'))
+	{
 		cout << errorMessageDirection;
 		return false;
 	}
-	else if (!(line >= 65 && line <= 90)) {
+	else if (!(line >= 65 && line <= 90))
+	{
 		cout << errorMessageChar;
 		return false;
 	}
-	else if (!(column >= 97 && column <= 122)) {
+	else if (!(column >= 97 && column <= 122))
+	{
 		cout << errorMessageChar;
 		return false;
 	}
-	else if (lineN > lines) {
+	else if (lineN > lines)
+	{
 		printf(errorMessageOutofBounds.c_str(), position.c_str());
 		return false;
 	}
-	else if (columnN > columns) {
+	else if (columnN > columns)
+	{
 		printf(errorMessageOutofBounds.c_str(), position.c_str());
 		return false;
 	}
@@ -389,11 +427,13 @@ void Board::getLettersRight(string &word, string position)
 	char direction = position[2];
 
 	if ('v' == direction || 'V' == direction)
-		for (unsigned int i = 0; i < word.size(); i++) {
+		for (unsigned int i = 0; i < word.size(); i++)
+		{
 			if (layout[column][line + i] != '.') word[i] = layout[column][line + i];
 		}
 	else if ('h' == direction || 'H' == direction)
-		for (unsigned int i = 0; i < word.size(); i++) {
+		for (unsigned int i = 0; i < word.size(); i++)
+		{
 			if (layout[column + i][line] != '.') word[i] = layout[column + i][line];
 		}
 }
@@ -404,26 +444,34 @@ vector<string> Board::verifyHorizontal()
 	vector<string> palavras;
 	string palavra;
 
-	for (unsigned int i = 0; i < layout[0].size(); i++) {
-		for (unsigned int k = 0; k < layout.size(); k++) {
-			if (layout[k][i] > 64 && layout[k][i] < 91) {
+	for (unsigned int i = 0; i < layout[0].size(); i++)
+	{
+		for (unsigned int k = 0; k < layout.size(); k++)
+		{
+			if (layout[k][i] > 64 && layout[k][i] < 91)
+			{
 				palavra += layout[k][i];
 			}
-			else if (k == 0) {
+			else if (k == 0)
+			{
 				continue;
 			}
-			else if (palavra.size() == 1) {
+			else if (palavra.size() == 1)
+			{
 				palavra = "";
 			}
-			else if (layout[k - 1][i] > 64 && layout[k - 1][i] < 91) {
+			else if (layout[k - 1][i] > 64 && layout[k - 1][i] < 91)
+			{
 				palavras.push_back(palavra);
 				palavra = "";
 			}
 		}
-		if (palavra.size() == 1) {
+		if (palavra.size() == 1)
+		{
 			palavra = "";
 		}
-		if (palavra.size() != 0) {
+		if (palavra.size() != 0)
+		{
 			palavras.push_back(palavra);
 			palavra = "";
 		}
@@ -436,26 +484,34 @@ vector<string> Board::verifyVertical()
 	vector<string> palavras;
 	string palavra;
 
-	for (unsigned int i = 0; i < layout.size(); i++) {
-		for (unsigned int k = 0; k < layout[0].size(); k++) {
-			if (layout[i][k] > 64 && layout[i][k] < 91) {
+	for (unsigned int i = 0; i < layout.size(); i++)
+	{
+		for (unsigned int k = 0; k < layout[0].size(); k++)
+		{
+			if (layout[i][k] > 64 && layout[i][k] < 91)
+			{
 				palavra += layout[i][k];
 			}
-			else if (k == 0) {
+			else if (k == 0)
+			{
 				continue;
 			}
-			else if (palavra.size() == 1) {
+			else if (palavra.size() == 1)
+			{
 				palavra = "";
 			}
-			else if (layout[i][k - 1] > 64 && layout[i][k - 1] < 91) {
+			else if (layout[i][k - 1] > 64 && layout[i][k - 1] < 91)
+			{
 				palavras.push_back(palavra);
 				palavra = "";
 			}
 		}
-		if (palavra.size() == 1) {
+		if (palavra.size() == 1)
+		{
 			palavra = "";
 		}
-		else if (palavra.size() != 0) {
+		else if (palavra.size() != 0)
+		{
 			palavras.push_back(palavra);
 			palavra = "";
 		}
@@ -480,7 +536,8 @@ void Board::extraction()
 		else fileOutput += to_string(n) + docType;
 
 		f.open(fileOutput);
-		if (f.is_open()) {
+		if (f.is_open())
+		{
 			existingFile = true;
 			f.close();
 		}
@@ -502,7 +559,7 @@ void Board::hashtagFill()
 				layout[i][j] = '#';
 }
 
-void Board::loadFromFile(fstream *f) 
+void Board::loadFromFile(fstream *f)
 {
 	string line; //complete lines
 	string word, position;
@@ -532,7 +589,7 @@ void Board::reExtraction(string outputFile)
 {
 	fstream f;
 	fstream *fA = &f;
-	
+
 	f.open(outputFile);
 
 	printInFile(fA, outputFile);
