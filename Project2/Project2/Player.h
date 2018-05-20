@@ -14,8 +14,6 @@ private:
 
 	string name;
 	double timeSpent;
-	time_t start;
-	double seconds_since_start;
 	int NumberOfAlternativeClues;
 
 public:
@@ -24,13 +22,15 @@ public:
 	
 	void setName(string playerName);
 
-	void StartTime();
+	//void StartTime();
 
-	void FinishTime();
+	//void FinishTime();
 
 	void OneMoreClue();
 
 	void StartCountingClues();
 
 	void SaveInformation(string inputFile);
+
+	void setTime(double seconds_since_start);
 };

@@ -468,9 +468,10 @@ void solvePuzzle()
 	string playerName; 
 	cout << "Enter your player name: ";
 	cin >> playerName; // Get the name of the player
-	Player.StartTime(); // Start counting the itme since the player is playing
+	//Player.StartTime(); // Start counting the itme since the player is playing
 	Player.setName(playerName); // Setting the name on the player on the classe Player
-	Player.StartCountingClues();
+	Player.StartCountingClues();//start at 0 counter the alternative clues the player asked
+	time_t start = time(0);//start counting time
 
 	while (!board.finishedGrid())
 	{
@@ -524,9 +525,11 @@ void solvePuzzle()
 
 	}
 	board.grid();
-	Player.FinishTime();
+	double seconds_since_start = difftime(time(0), start);//finish counting time
+	Player.setTime(seconds_since_start);//setting the time on player class
+	//Player.FinishTime();
 	cout << "CONGRATULATIONS! YOU WON!";//<=======================
-	Player.SaveInformation(inputFile);
+	Player.SaveInformation(inputFile);//input the player information on file
 }
 //
 int main()
