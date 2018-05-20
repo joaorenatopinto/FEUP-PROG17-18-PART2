@@ -2,8 +2,9 @@
 #include"Board.h"
 #include"player.h"
 
-using namespace std;
 
+using namespace std;
+//
 bool allWordsValidity(Board *boardP, Dictionary *dictP)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -72,7 +73,7 @@ bool finishingCreate(Board *boardP, Dictionary *dictP)
 		bool validity = allWordsValidity(boardP, dictP);
 		if (validity)
 		{
-			boardP->extraction();
+			boardP->extraction(dictP->fileNameInput);
 		}
 		else
 		{
@@ -108,7 +109,7 @@ bool finishingCreate(Board *boardP, Dictionary *dictP)
 
 			if (finishExtraction)
 			{
-				boardP->extraction();
+				boardP->extraction(dictP->fileNameInput);
 			}
 			else return false;
 		}
@@ -116,7 +117,7 @@ bool finishingCreate(Board *boardP, Dictionary *dictP)
 	}
 	else
 	{
-		boardP->extraction();
+		boardP->extraction(dictP->fileNameInput);
 	}
 	return true;
 }
@@ -158,7 +159,7 @@ bool finishingCreate(Board *boardP, Dictionary *dictP, string inputFile)
 		boardP->hashtagFill();
 		bool validity = allWordsValidity(boardP, dictP);
 		//cout << "\nThe extraction will continue\n";
-		boardP->reExtraction(inputFile);
+		boardP->reExtraction(dictP->fileNameInput, inputFile);
 
 	}
 	else
@@ -195,12 +196,12 @@ bool finishingCreate(Board *boardP, Dictionary *dictP, string inputFile)
 
 		if (finishExtraction)
 		{
-			boardP->reExtraction(inputFile);
+			boardP->reExtraction(dictP->fileNameInput, inputFile);
 		}
 		else return false;
 	}
 	{
-		boardP->reExtraction(inputFile);
+		boardP->reExtraction(dictP->fileNameInput, inputFile);
 	}
 }
 
@@ -330,15 +331,66 @@ void helpInsertWord(string position, Board *boardP, Dictionary *dictP)
 		}
 	}
 }
-
-bool checkValidity(Dictionary *dictP, Board *boardP, string word, string position, vector<string> wordsplaced)
+//
+bool checkValidity(Dictionary *dictP, Board *boardP, string word, string position)
 {
 	//check the existance of the word
 	if (!dictP->headlineExists(word)) return false;
 
-	if (!boardP->unusedWordGrid(word, wordsplaced)) return false;
+	if (!boardP->unusedWordGrid(word)) return false;
 	if (!boardP->checkSpace4WordGrid(word, position)) return false;
 	return true;
+}
+
+void positionSynonymsFill(map<string, string> &positionSynonyms, Board* boardP, Dictionary* dictP)
+{
+	positionSynonyms = boardP->positionWords(); //fill the map with the position and the roght word
+
+	map<string, string>::iterator it = positionSynonyms.begin(); //beginning of the map
+
+	for (it; it != positionSynonyms.end(); it++) //switch every right word by a synonym of itself
+	{
+		it->second = dictP->synonymsWord(it->second);
+	}
+}
+
+void synonymsShow(map<string, string> positionSynonyms)
+{
+	map<string, string>::iterator it;
+	it = positionSynonyms.begin();
+	cout << "\n\tHORIZONTAL:";
+	for (it; it != positionSynonyms.end(); it++)
+	{
+		if (it->first[2] == 'H' || it->first[2] == 'h')
+		{
+			cout << "\n " << it->first[0] << it->first[1] << " - " << it->second;
+		}
+	}
+
+	it = positionSynonyms.begin();
+	cout << "\n\n\tVERTICAL:";
+	for (it; it != positionSynonyms.end(); it++)
+	{
+		if (it->first[2] == 'V' || it->first[2] == 'v')
+		{
+			cout << "\n " << it->first[0] << it->first[1] << " - " << it->second;
+		}
+	}
+	cout << endl << endl;
+}
+
+void synonymChange(map<string, string> &positionSynonyms, string position, Board* boardP, Dictionary* dictP)
+{
+	string word = boardP->wordInPosition(position); //right word to go to dictionary
+	string newSynonym; //substitute
+	map<string, string>::iterator it = positionSynonyms.find(position);
+	string oldSynonym = it->second;
+	do
+	{
+		newSynonym = dictP->synonymsWord(word);
+	} while (newSynonym == oldSynonym);
+
+	positionSynonyms[position] = newSynonym;
 }
 
 //void clues(Dictionary *dictP, Board *boardP, map <string, string> keySynonym) {
@@ -353,37 +405,10 @@ void solvePuzzle()
 	Dictionary dict;
 	Dictionary *dictA = &dict;
 	bool errorOpeningFile;
-	vector<string> wordsplaced;
-	map <string, string> keySynonym;
-	map <string, string> WordsPlacedByPlayer;
-
-
-	do
-	{
-		errorOpeningFile = false;
-		cin.clear();
-		string errorMessageFileInput = "That input is not valid! Try again\n";
-		cout << "Dictionary file name ? ";
-		cin >> dict.fileNameInput;
-		if (cin.fail())
-		{
-			cin.ignore(1000000, '\n');
-			SetConsoleTextAttribute(hConsole, 244);
-			cout << errorMessageFileInput;
-			SetConsoleTextAttribute(hConsole, 15);
-			continue;
-		}
-		if (cin.eof())
-		{
-			cin.ignore(100, '\n');
-			SetConsoleTextAttribute(hConsole, 244);
-			cout << errorMessageFileInput;
-			SetConsoleTextAttribute(hConsole, 15);
-			continue;
-		}
-		if (!dict.loadToProgram()) errorOpeningFile = true;
-
-	} while (cin.fail() || errorOpeningFile);
+	//vector<string> wordsplaced;
+	//map <string, string> keySynonym;
+	//map <string, string> WordsPlacedByPlayer;
+	map<string, string> positionSynonyms;
 
 	fstream f;
 	fstream *fA = &f;
@@ -394,7 +419,7 @@ void solvePuzzle()
 		errorOpeningFile = false;
 		string errorMessageFileInput = "That input is not valid! Try again\n";
 		string errorMessageOpeningFile = "It was not possible to open the %s file";
-		cout << "File name?\n";
+		cout << "File name? ";
 		cin >> inputFile;
 		if (cin.fail())
 		{
@@ -425,20 +450,25 @@ void solvePuzzle()
 	Board board;
 	Board *boardA = &board;
 
+	getline(f, dict.fileNameInput);
+	dict.loadToProgram();
+
 	board.loadFromFileGrid(fA);
-	f.close();
+	f.close(); 
 
 	//loop to fill in the board
 	string position, word;
-	//clues(dictA, boardA, keySynonym); AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH FUNÇÃO QUE PREENCHE A BOARD
+	
+	//funçao para dar fill do map dos sinonimos
+	positionSynonymsFill(positionSynonyms, boardA, dictA);
+
 
 	player Player;
-	while (true)
+	while (!board.finishedGrid())
 	{
 		board.grid(); //show the board
-					  //the user choose what to do
+		synonymsShow(positionSynonyms);			  //the user choose what to do
 
-		// AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AHAH FAZER COUT DO MAP
 
 		cout << "Position ( LCD / CTRL-Z = stop ) ? "; cin >> position; //<======================= tornar mais robusto
 		if (cin.eof())
@@ -450,12 +480,16 @@ void solvePuzzle()
 		}
 
 		cout << "Word ( - = remove / ? = help ) . ? "; cin >> word;
-		if (cin.eof())
-		{
-			cin.clear(); continue;
-		}
 		transform(word.begin(), word.end(), word.begin(), ::toupper); //upper case the word
 
+		if (cin.eof()) {
+			cin.clear();
+			cin.ignore(10000, '\n');
+			SetConsoleTextAttribute(hConsole, 244);
+			cout << "That is not a valid answer!";
+			SetConsoleTextAttribute(hConsole, 15);
+			continue;
+		}
 																	  //check if position input is correct
 		if (!board.validPosition(position))
 		{
@@ -466,38 +500,41 @@ void solvePuzzle()
 		//to remove a word
 		else if ("-" == word)
 		{
-			board.removeWord(position);
-			map<string, string>::iterator it = WordsPlacedByPlayer.find(position);
-			if (it != WordsPlacedByPlayer.end())
-			{
-				WordsPlacedByPlayer.erase(it);
-			}
+			board.removeWordGrid(position);
 		}
 		//to help the user
 		else if ("?" == word)
 		{
-			helpInsertWord(position, boardA, dictA);// AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH AH MUDAR PRA SER A FUNÇÃO QUE DA NO VO SINÓNIMO
+			synonymChange(positionSynonyms, position, boardA, dictA);
 			Player.OneMoreClue();
 		}
 		//to add the respective word
-		else if (checkValidity(dictA, boardA, word, position, wordsplaced)) 
+		else if (checkValidity(dictA, boardA, word, position)) 
 		{
-			board.addWord(word, position);
-			WordsPlacedByPlayer[position] = word;
+			board.addWordGrid(word, position);
 		}
 
 	}
+	board.grid();
+	cout << "CONGRATULATIONS! YOU WON!";//<=======================
 
-	player *PlayerA = &Player;
-	string playerName;
+	//info do tempo e ajudas etc
+	//extraçao do ficheiro
 
-	cout << "Enter your player name: ";
-	cin >> playerName;
-	Player.StartTime();
+	//player *PlayerA = &Player; // <=== ??????
+	//string playerName; // <=== ??????
 
-	Player.setName(playerName);
+	//cout << "Enter your player name: "; // <=== ??????
+	//cin >> playerName; // <=== ??????
+	//Player.StartTime(); // <=== ???????
+
+	//Player.setName(playerName); // <=== ?????
+
+
+
+	//NAO ENTENDI ESTA PARTE COMENTADA
 }
-
+//
 int main()
 {
 	//PROGRAM LAYOUT

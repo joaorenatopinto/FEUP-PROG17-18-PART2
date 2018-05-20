@@ -6,7 +6,11 @@
 #include <map>
 #include <algorithm>
 #include <Windows.h> 
+#include <ctime>
+#include <stdlib.h>
 using namespace std;
+
+
 
 class Dictionary
 {
@@ -34,6 +38,6 @@ public:
 
 	vector<string> matchingWords(string wildCard);
 
-	//string Synonym();
+	string synonymsWord(string word);
 };
 
