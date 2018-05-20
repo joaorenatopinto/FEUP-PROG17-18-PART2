@@ -827,25 +827,6 @@ bool Board::checkSpace4WordGrid(string word, string position)
 	return false;
 }
 
-void Board::clues()
-{
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	//SetConsoleTextAttribute(hConsole, 244);
-	cout << "THERE'S THE POSITION AND A SYNONIM OF EACH WORD TO BE GUESSED\n\n";
-	map<string, string>::iterator it = positionWordsPlaced.begin();
-	cout << "VERTICAL WORDS\n";
-	for (it; it != positionWordsPlaced.end(); it++) {
-		if (it->first[2] == 'V') {
-			cout << it->first[0] + it->first[1] << "" << "  ";
-		}
-	}
-	cout << "HORIZONTAL WORDS\n\n";
-	it = positionWordsPlaced.begin();
-
-	for (it; it != positionWordsPlaced.end(); it++) {
-
-	}
-}
 //2nd
 void Board::removeWordGrid(string position)
 {
@@ -950,4 +931,18 @@ string Board::wordInPosition(string position)
 	map<string, string>::iterator it = positionWordsPlaced.find(position);
 
 	return it->second;
+}
+
+bool Board::Checkposition(string position, Board *boardP)
+{
+	map<string, string>::iterator it = positionWordsPlacedGrid.begin();
+
+	for (it; it != positionWordsPlacedGrid.end(); it++)
+	{
+		if (it->first == position)
+		{
+			return true;
+		}
+	}
+	return false;
 }

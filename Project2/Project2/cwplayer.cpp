@@ -488,6 +488,14 @@ void solvePuzzle()
 			else continue;
 		}
 
+		if(!board.Checkposition(position, boardA))
+		{
+			SetConsoleTextAttribute(hConsole, 244);
+			cout << "That position is not valid!\n";
+			SetConsoleTextAttribute(hConsole, 15);
+			continue;
+		}
+
 		cout << "Word ( - = remove / ? = help ) . ? "; cin >> word;
 		transform(word.begin(), word.end(), word.begin(), ::toupper); //upper case the word
 

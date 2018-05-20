@@ -87,8 +87,6 @@ public:
 
 	bool checkSpace4WordGrid(string word, string position);
 
-	void clues();
-
 	void addWordGrid(string word, string position);
 
 	void removeWordGrid(string position);
@@ -102,4 +100,6 @@ public:
 	map<string, string> positionWords();
 
 	string wordInPosition(string position);
+
+	bool Checkposition(string position, Board *boardP);
 };
