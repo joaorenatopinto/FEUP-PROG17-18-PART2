@@ -24,7 +24,7 @@ void player::StartCountingClues() {
 }
 
 void player::FinishTime() {
-	int seconds_since_start = difftime(time(0), start);
+	seconds_since_start = difftime(time(0), start);
 }
 
 void player::OneMoreClue() {

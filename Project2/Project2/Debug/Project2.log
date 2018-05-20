@@ -1,6 +1,5 @@
 ﻿  cwplayer.cpp
   player.cpp
-c:\users\beto\documents\proj2part2\project2\project2\player.cpp(27): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
   Generating Code...
 c:\users\beto\documents\proj2part2\project2\project2\cwplayer.cpp(206): warning C4715: 'finishingCreate': not all control paths return a value
   Project2.vcxproj -> C:\Users\Beto\Documents\Proj2Part2\Project2\Debug\Project2.exe

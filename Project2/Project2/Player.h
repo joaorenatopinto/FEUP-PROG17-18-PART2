@@ -15,7 +15,7 @@ private:
 	string name;
 	double timeSpent;
 	time_t start;
-	int seconds_since_start;
+	double seconds_since_start;
 	int NumberOfAlternativeClues;
 
 public:

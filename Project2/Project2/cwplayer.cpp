@@ -470,6 +470,7 @@ void solvePuzzle()
 	cin >> playerName; // Get the name of the player
 	Player.StartTime(); // Start counting the itme since the player is playing
 	Player.setName(playerName); // Setting the name on the player on the classe Player
+	Player.StartCountingClues();
 
 	while (!board.finishedGrid())
 	{
