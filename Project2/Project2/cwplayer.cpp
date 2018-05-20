@@ -464,6 +464,13 @@ void solvePuzzle()
 
 
 	player Player;
+	player *PlayerA = &Player; 
+	string playerName; 
+	cout << "Enter your player name: ";
+	cin >> playerName; // Get the name of the player
+	Player.StartTime(); // Start counting the itme since the player is playing
+	Player.setName(playerName); // Setting the name on the player on the classe Player
+
 	while (!board.finishedGrid())
 	{
 		board.grid(); //show the board
@@ -516,23 +523,9 @@ void solvePuzzle()
 
 	}
 	board.grid();
+	Player.FinishTime();
 	cout << "CONGRATULATIONS! YOU WON!";//<=======================
-
-	//info do tempo e ajudas etc
-	//extraçao do ficheiro
-
-	//player *PlayerA = &Player; // <=== ??????
-	//string playerName; // <=== ??????
-
-	//cout << "Enter your player name: "; // <=== ??????
-	//cin >> playerName; // <=== ??????
-	//Player.StartTime(); // <=== ???????
-
-	//Player.setName(playerName); // <=== ?????
-
-
-
-	//NAO ENTENDI ESTA PARTE COMENTADA
+	Player.SaveInformation(inputFile);
 }
 //
 int main()
