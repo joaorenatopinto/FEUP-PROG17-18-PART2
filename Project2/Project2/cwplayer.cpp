@@ -393,10 +393,6 @@ void synonymChange(map<string, string> &positionSynonyms, string position, Board
 	positionSynonyms[position] = newSynonym;
 }
 
-//void clues(Dictionary *dictP, Board *boardP, map <string, string> keySynonym) {
-//
-//}
-
 void solvePuzzle()
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -405,9 +401,6 @@ void solvePuzzle()
 	Dictionary dict;
 	Dictionary *dictA = &dict;
 	bool errorOpeningFile;
-	//vector<string> wordsplaced;
-	//map <string, string> keySynonym;
-	//map <string, string> WordsPlacedByPlayer;
 	map<string, string> positionSynonyms;
 
 	fstream f;
@@ -468,7 +461,6 @@ void solvePuzzle()
 	string playerName; 
 	cout << "Enter your player name: ";
 	cin >> playerName; // Get the name of the player
-	//Player.StartTime(); // Start counting the itme since the player is playing
 	Player.setName(playerName); // Setting the name on the player on the classe Player
 	Player.StartCountingClues();//start at 0 counter the alternative clues the player asked
 	time_t start = time(0);//start counting time
@@ -488,7 +480,7 @@ void solvePuzzle()
 			else continue;
 		}
 
-		if(!board.Checkposition(position, boardA))
+		if(!board.Checkposition(position, boardA)) //check if position is valid
 		{
 			SetConsoleTextAttribute(hConsole, 244);
 			cout << "That position is not valid!\n";
@@ -507,8 +499,8 @@ void solvePuzzle()
 			SetConsoleTextAttribute(hConsole, 15);
 			continue;
 		}
-																	  //check if position input is correct
-		if (!board.validPosition(position))
+																	 
+		if (!board.validPosition(position)) //check if position input is correct
 		{
 			SetConsoleTextAttribute(hConsole, 244);
 			cout << "That position is not valid... Try Again!\n";
@@ -517,25 +509,24 @@ void solvePuzzle()
 		//to remove a word
 		else if ("-" == word)
 		{
-			board.removeWordGrid(position);
+			board.removeWordGrid(position);//remove word from the grid
 		}
 		//to help the user
 		else if ("?" == word)
 		{
-			synonymChange(positionSynonyms, position, boardA, dictA);
+			synonymChange(positionSynonyms, position, boardA, dictA);//search a different synonim of the word
 			Player.OneMoreClue();
 		}
 		//to add the respective word
-		else if (checkValidity(dictA, boardA, word, position)) 
+		else if (checkValidity(dictA, boardA, word, position)) //check validity of the word
 		{
-			board.addWordGrid(word, position);
+			board.addWordGrid(word, position);//add word to the grid
 		}
 
 	}
 	board.grid();
 	double seconds_since_start = difftime(time(0), start);//finish counting time
 	Player.setTime(seconds_since_start);//setting the time on player class
-	//Player.FinishTime();
 	cout << "CONGRATULATIONS! YOU WON!";//<=======================
 	Player.SaveInformation(inputFile);//input the player information on file
 }

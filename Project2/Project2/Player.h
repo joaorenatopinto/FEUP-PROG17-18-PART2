@@ -22,10 +22,6 @@ public:
 	
 	void setName(string playerName);
 
-	//void StartTime();
-
-	//void FinishTime();
-
 	void OneMoreClue();
 
 	void StartCountingClues();

@@ -937,9 +937,9 @@ bool Board::Checkposition(string position, Board *boardP)
 {
 	map<string, string>::iterator it = positionWordsPlacedGrid.begin();
 
-	for (it; it != positionWordsPlacedGrid.end(); it++)
+	for (it; it != positionWordsPlacedGrid.end(); it++)//search all positions of the words hidden in the grid
 	{
-		if (it->first == position)
+		if (it->first == position)// if the position exists return true, if not return false
 		{
 			return true;
 		}
