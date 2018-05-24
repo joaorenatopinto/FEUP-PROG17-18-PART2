@@ -6,13 +6,12 @@
 #include <Windows.h>
 #include <time.h>
 
-using namespace std; 
 
 class player
 {
 private:
 
-	string name;
+	std::string name;
 	double timeSpent;
 	int NumberOfAlternativeClues;
 
@@ -20,13 +19,13 @@ public:
 	player();
 	~player();
 	
-	void setName(string playerName);
+	void setName(std::string playerName);
 
 	void OneMoreClue();
 
 	void StartCountingClues();
 
-	void SaveInformation(string inputFile);
+	void SaveInformation(std::string inputFile);
 
 	void setTime(double seconds_since_start);
 };

@@ -8,36 +8,46 @@
 #include <Windows.h> 
 #include <ctime>
 #include <stdlib.h>
-using namespace std;
-
 
 
 class Dictionary
 {
 private:
-	map <string, vector <string> > wordSynonyms;
-	ifstream f;
-	
+	std::map <std::string, std::vector <std::string> > wordSynonyms; //map with the word and the vector with synonyms
+	std::ifstream f; //open the file
 
 public:
+	//constructor
 	Dictionary();
+
+	//destructor
 	~Dictionary();
-	string fileNameInput;
 
-	bool isHeadline(string line);
+	//name of input file
+	std::string fileNameInput;
 
-	string singleWord(string &Line); //retirar a proxima palavra da linha
+	//returns true if the words exists in the dictionary map
+	bool isHeadline(std::string line);
 
-	bool validLine(string Line);
+	//separates the word from the line of the dictionary
+	std::string singleWord(std::string &Line); //retirar a proxima palavra da linha
 
+	//returns true if the line is valid
+	bool validLine(std::string Line);
+
+	//returns true if the word and the wildcard mathces
 	bool wildcardMatch(const char *str, const char *strWild);
 
+	//load the dictionary from the file to the program
 	bool loadToProgram();
 
-	bool headlineExists(string word);
+	//sees if the word that the user tried to input belongs to the dictionary
+	bool headlineExists(std::string word);
 
-	vector<string> matchingWords(string wildCard);
+	//searches for matching words, and return a 10-elements-maximum-size vector
+	std::vector<std::string> matchingWords(std::string wildCard);
 
-	string synonymsWord(string word);
+	//returns a synonym of the word asked
+	std::string synonymsWord(std::string word);
 };
 

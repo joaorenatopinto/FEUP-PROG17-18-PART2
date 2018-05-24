@@ -1,6 +1,6 @@
 #include "player.h"
 
-
+using namespace std;
 
 player::player()
 {
@@ -31,7 +31,15 @@ void player::SaveInformation(string inputFile) { //saving the information of the
 	string FileNameOutPut;
 	FileNameOutPut = inputFile.erase(4, 4);
 	FileNameOutPut = FileNameOutPut.append("_p.txt");
-	ofstream Output(FileNameOutPut);
+	cout << "The player " << name << " spent " << timeSpent << " seconds and asked for " << NumberOfAlternativeClues << " alternative clues.\n";
 
-	Output << "The player " << name << " spent " << timeSpent << " seconds and asked for " << NumberOfAlternativeClues << " alternative clues.\n";
+	ofstream output;
+
+	output.open(FileNameOutPut, ios::app);
+	if (!output.is_open()) //file existes
+	{
+		output.open(FileNameOutPut, ios::out | ios::in | ios::trunc); //if not opened, creates file
+	}
+
+	output << "The player " << name << " spent " << timeSpent << " seconds and asked for " << NumberOfAlternativeClues << " alternative clues.\n";
 }

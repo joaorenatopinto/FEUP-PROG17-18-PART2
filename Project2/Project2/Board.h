@@ -7,99 +7,112 @@
 #include <algorithm>
 #include <Windows.h>
 #include <cstdlib>
-using namespace std;
-
-
 
 class Board
 {
 private:
-	unsigned int lines, columns;
-	vector <vector <char> > layout; //bigger vector "lines", smaller vectors are columns
-	vector <char> newEmpty; //needed to fill the vector
-	map <string, string> positionWordsPlaced; //to handle add and remove words, check on repeated words and output/input for/from files
-	map <string, string> positionWordsPlacedGrid; //handle the cwplayer grid
+	unsigned int lines, columns; //number of lines and columns
+	std::vector <std::vector <char> > layout; //bigger vector "lines", smaller vectors are columns
+	std::vector <char> newEmpty; //needed to fill the vector
+	std::map <std::string, std::string> positionWordsPlaced; //to handle add and remove words, check on repeated words and output/input for/from files
+	std::map <std::string, std::string> positionWordsPlacedGrid; //handle the cwplayer grid
 	
 public:
-	~Board();
-
+	//constructor
 	Board();
-
+	//argument constructor
 	Board(unsigned int lines, unsigned int columns);
-	
-	void addVertical(string word, int line, int column);
-
-	void addHorizontal(string word, int line, int column);
-
+	//destructor
+	~Board();
+	//add word in vertical direction
+	void addVertical(std::string word, int line, int column);
+	//add word in horizontal direction
+	void addHorizontal(std::string word, int line, int column);
+	//checks for words that are crossed with the ones being removed
 	bool crossedWordsVertical(unsigned int column, unsigned int line);
-
 	bool crossedWordsHorizontal(unsigned int column, unsigned int line);
 
-	void removeVertical(int line, int column);
+	//print name of dictionary, board and position-word in file
+	void printInFile(std::fstream *f, std::string fileName);
 
-	void removeHorizontal(int line, int column);
-
-	void printInFile(fstream *f, string fileName);
-
-	void loadFromFile(fstream *f);
+	//load the information from the file on the program
+	void loadFromFile(std::fstream *f);
 	
+	//fill the board with points (beginning)
 	void pointFill();
 
+	//prints the vector of the board in the console
 	void show();
 
-	int whichLine(string position);
+	//converts char ascii code to lines/columns position
+	int whichLine(std::string position);
+	int whichColumn(std::string position);
 
-	int whichColumn(string position);
+	//does primitive job before sending to the right adding
+	void addWord(std::string word, std::string position);
 
-	void addWord(string word, string position);
+	//primitive job before actually removing
+	void removeWord(std::string position);
 
-	void removeWord(string position);
+	//sees if there is space for the word
+	bool checkSpace4Word(std::string word, std::string position);
 
-	bool checkSpace4Word(string word, string position);
+	//sees if the word was already used
+	bool unusedWord(std::string word);
 
-	bool unusedWord(string word);
+	//sees if the position is valid
+	bool validPosition(std::string position);
 
-	bool validPosition(string position);
+	//when helping, searches in the board for letters in the middle
+	void getLettersRight(std::string &word, std::string position);
 
-	void getLettersRight(string &word, string position);
+	//final validation
+	std::vector<std::string> verifyHorizontal();
+	std::vector<std::string> verifyVertical();
 
-	vector<string> verifyHorizontal();
+	//info extraction
+	void extraction(std::string dictFile);
+	void reExtraction(std::string dictFile, std::string outputFile);
 
-	vector<string> verifyVertical();
-
-	void extraction(string dictFile);
-
+	//fill the remaining . in the end of the creation of the file
 	void hashtagFill();
 
-	void reExtraction(string dictFile, string outputFile);
-
+	//player board
 	void grid();
 
-	void addVerticalGrid(string word, int line, int column);
+	//player addiction of the words
+	void addVerticalGrid(std::string word, int line, int column);
+	void addHorizontalGrid(std::string word, int line, int column);
+	//1st add of the "words" in the board and normal add
+	void addWord1stGrid(std::string word, std::string position);
+	void addWordGrid(std::string word, std::string position);
 
-	void addHorizontalGrid(string word, int line, int column);
+	//load from file to player program
+	void loadFromFileGrid(std::fstream *f);
 
-	void loadFromFileGrid(fstream *f);
+	//used word in the player program
+	bool unusedWordGrid(std::string word);
 
-	void addWord1stGrid(string word, string position);
+	//checks for space in the player program
+	bool checkSpace4WordGrid(std::string word, std::string position);
 
-	bool unusedWordGrid(string word);
-
-	bool checkSpace4WordGrid(string word, string position);
-
-	void addWordGrid(string word, string position);
-
-	void removeWordGrid(string position);
-
+	//remove word in player grid
+	void removeWordGrid(std::string position);
 	void removeVerticalGrid(int line, int column);
-
 	void removeHorizontalGrid(int line, int column);
 
+	//verification of finishing game
 	bool finishedGrid();
 
-	map<string, string> positionWords();
+	//returns the map with position and right word
+	std::map<std::string, std::string> positionWords();
 
-	string wordInPosition(string position);
+	//returns the word in the position asked
+	std::string wordInPosition(std::string position);
 
-	bool Checkposition(string position, Board *boardP);
+	//reset the board to every position with '.'
+	void boardReset();
+
+	//checks if position exists
+	bool checkPosition(std::string position);
 };

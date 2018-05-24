@@ -411,7 +411,7 @@ void solvePuzzle()
 		cin.clear();
 		errorOpeningFile = false;
 		string errorMessageFileInput = "That input is not valid! Try again\n";
-		string errorMessageOpeningFile = "It was not possible to open the %s file";
+		string errorMessageOpeningFile = "It was not possible to open the %s file\n";
 		cout << "File name? ";
 		cin >> inputFile;
 		if (cin.fail())
@@ -452,7 +452,7 @@ void solvePuzzle()
 	//loop to fill in the board
 	string position, word;
 	
-	//funçao para dar fill do map dos sinonimos
+	//Fill in map with word synonyms
 	positionSynonymsFill(positionSynonyms, boardA, dictA);
 
 
@@ -461,17 +461,17 @@ void solvePuzzle()
 	string playerName; 
 	cout << "Enter your player name: ";
 	cin >> playerName; // Get the name of the player
-	Player.setName(playerName); // Setting the name on the player on the classe Player
-	Player.StartCountingClues();//start at 0 counter the alternative clues the player asked
-	time_t start = time(0);//start counting time
+	Player.setName(playerName); // Setting the player´s name on class Player
+	Player.StartCountingClues(); // Start at 0 the counter of alternative clues the player asked
+	time_t start = time(0);// Starts time counter
 
 	while (!board.finishedGrid())
 	{
 		board.grid(); //show the board
-		synonymsShow(positionSynonyms);			  //the user choose what to do
+		synonymsShow(positionSynonyms);			  
 
 
-		cout << "Position ( LCD / CTRL-Z = stop ) ? "; cin >> position; //<======================= tornar mais robusto
+		cout << "Position ( LCD / CTRL-Z = stop ) ? "; cin >> position; // user chooses what to do
 		if (cin.eof())
 		{
 			cin.clear();
@@ -480,7 +480,7 @@ void solvePuzzle()
 			else continue;
 		}
 
-		if(!board.Checkposition(position, boardA)) //check if position is valid
+		if(!board.checkPosition(position)) //check if position is valid
 		{
 			SetConsoleTextAttribute(hConsole, 244);
 			cout << "That position is not valid!\n";
@@ -527,7 +527,7 @@ void solvePuzzle()
 	board.grid();
 	double seconds_since_start = difftime(time(0), start);//finish counting time
 	Player.setTime(seconds_since_start);//setting the time on player class
-	cout << "CONGRATULATIONS! YOU WON!";//<=======================
+	cout << "\nCONGRATULATIONS! YOU WON!\n";//<=======================
 	Player.SaveInformation(inputFile);//input the player information on file
 }
 //
